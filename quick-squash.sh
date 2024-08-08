@@ -29,6 +29,7 @@ function getCommitNumber() {
 function checkError() {
     if [ "$#" -eq 0 ]; then
         COMMIT_NUMBER=2
+        echo "INFO: No argument givens, number of commit to squash set to 2."
         return 0
     else
         if ! getCommitNumber "$@"; then
@@ -58,14 +59,15 @@ function quickSquash() {
     local _commit_message=""
 
     _commit_message="$(getCommitMessage "$_commit_number")"
-    git reset --soft HEAD~"$_commit_message"
+    git reset --soft HEAD~"$_commit_number"
     git commit -m "$_commit_message"
     echo "The last two commits have been squashed successfully!"
 }
 
 function main() {
     if ! checkError "$@"; then
-        echo "err"
+        echo "An error has occured."
+        usage
         return 1
     fi
     quickSquash "$COMMIT_NUMBER"
