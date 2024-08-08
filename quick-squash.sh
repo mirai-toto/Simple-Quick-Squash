@@ -29,7 +29,7 @@ function getCommitNumber() {
 function checkError() {
     if [ "$#" -eq 0 ]; then
         COMMIT_NUMBER=2
-        return 1
+        return 0
     else
         if ! getCommitNumber "$@"; then
             return 1
